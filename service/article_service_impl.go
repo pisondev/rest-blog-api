@@ -14,6 +14,13 @@ type ArticleServiceImpl struct {
 	DB                *sql.DB
 }
 
+func NewArticleService(articleRepository repository.ArticleRepository, DB *sql.DB) ArticleService {
+	return &ArticleServiceImpl{
+		ArticleRepository: articleRepository,
+		DB:                DB,
+	}
+}
+
 func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.ArticleCreateRequest) web.ArticleResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
