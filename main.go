@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"rest-blog-api/helper"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -14,7 +15,5 @@ func main() {
 		Handler: router,
 	}
 	err := server.ListenAndServe()
-	if err != nil {
-		panic(err)
-	}
+	helper.PanicIfError(err)
 }
