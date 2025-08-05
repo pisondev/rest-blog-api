@@ -8,15 +8,17 @@ import (
 	"rest-blog-api/repository"
 	"rest-blog-api/service"
 
+	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
 	db := app.NewDB()
+	validate := validator.New()
 
 	articleRepository := repository.NewArticleRepository()
-	articleService := service.NewArticleService(articleRepository, db)
+	articleService := service.NewArticleService(articleRepository, db, validate)
 	articleController := controller.NewArticleController(articleService)
 
 	router := httprouter.New()

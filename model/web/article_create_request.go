@@ -1,6 +1,6 @@
 package web
 
 type ArticleCreateRequest struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Title   string `validate:"required,min=1,max=255" json:"title"`
+	Content string `validate:"required,min=1,max=5000" json:"content"`
 }

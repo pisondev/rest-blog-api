@@ -7,21 +7,28 @@ import (
 	"rest-blog-api/model/domain"
 	"rest-blog-api/model/web"
 	"rest-blog-api/repository"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type ArticleServiceImpl struct {
 	ArticleRepository repository.ArticleRepository
 	DB                *sql.DB
+	Validate          *validator.Validate
 }
 
-func NewArticleService(articleRepository repository.ArticleRepository, DB *sql.DB) ArticleService {
+func NewArticleService(articleRepository repository.ArticleRepository, DB *sql.DB, validate *validator.Validate) ArticleService {
 	return &ArticleServiceImpl{
 		ArticleRepository: articleRepository,
 		DB:                DB,
+		Validate:          validate,
 	}
 }
 
 func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.ArticleCreateRequest) web.ArticleResponse {
+	err := service.Validate.Struct(req)
+	helper.PanicIfError(err)
+
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
