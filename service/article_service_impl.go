@@ -25,9 +25,5 @@ func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.Ar
 	}
 	createdArticle := service.ArticleRepository.CreateArticle(ctx, tx, article)
 
-	return web.ArticleResponse{
-		Id:      createdArticle.Id,
-		Title:   createdArticle.Title,
-		Content: createdArticle.Content,
-	}
+	return helper.ToArticleResponse(createdArticle)
 }
