@@ -1,7 +1,7 @@
 package web
 
 type ArticleResponse struct {
-	Id      int
-	Title   string
-	Content string
+	Id      int    `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
