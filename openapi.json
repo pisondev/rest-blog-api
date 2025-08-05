@@ -73,6 +73,44 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": ["Article API"],
+        "summary": "Find all articles",
+        "description": "Find all articles from the database",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all articles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "title": { "type": "string" },
+                          "content": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
