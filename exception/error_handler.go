@@ -4,10 +4,34 @@ import (
 	"net/http"
 	"rest-blog-api/helper"
 	"rest-blog-api/model/web"
+
+	"github.com/go-playground/validator/v10"
 )
 
 func ErrorHandler(w http.ResponseWriter, r *http.Request, err interface{}) {
+	if validationError(w, r, err) {
+		return
+	}
 	internalServerError(w, r, err)
+}
+
+func validationError(w http.ResponseWriter, r *http.Request, err interface{}) bool {
+	exception, ok := err.(validator.ValidationErrors)
+	if ok {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+
+		webResponse := web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   exception.Error(),
+		}
+
+		helper.WriteToResponseBody(w, webResponse)
+		return true
+	} else {
+		return false
+	}
 }
 
 func internalServerError(w http.ResponseWriter, r *http.Request, err interface{}) {
