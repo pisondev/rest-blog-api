@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/articles": {
+    "/api/articles": {
       "post": {
         "tags": ["Article API"],
         "summary": "Create article",
@@ -25,10 +25,14 @@
                 "required": ["title", "content"],
                 "properties": {
                   "title": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
                   },
                   "content": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000
                   }
                 }
               }
