@@ -2,13 +2,26 @@ package main
 
 import (
 	"net/http"
+	"rest-blog-api/app"
+	"rest-blog-api/controller"
 	"rest-blog-api/helper"
+	"rest-blog-api/repository"
+	"rest-blog-api/service"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
+	db := app.NewDB()
+
+	articleRepository := repository.NewArticleRepository()
+	articleService := service.NewArticleService(articleRepository, db)
+	articleController := controller.NewArticleController(articleService)
+
 	router := httprouter.New()
+
+	router.POST("/api/articles", articleController.CreateArticle)
 
 	server := http.Server{
 		Addr:    "localhost:3000",
