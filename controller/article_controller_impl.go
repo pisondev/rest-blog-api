@@ -25,6 +25,9 @@ func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r 
 
 	articleResponse := controller.ArticleService.CreateArticle(r.Context(), result)
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+
 	webResponse := web.WebResponse{
 		Code:   201,
 		Status: "Created",
