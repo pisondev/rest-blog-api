@@ -13,6 +13,12 @@ type ArticleControllerImpl struct {
 	ArticleService service.ArticleService
 }
 
+func NewArticleController(articleService service.ArticleService) ArticleController {
+	return &ArticleControllerImpl{
+		ArticleService: articleService,
+	}
+}
+
 func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	result := web.ArticleCreateRequest{}
 	helper.ReadFromRequestBody(r, result)
