@@ -24,7 +24,7 @@ func NewArticleService(articleRepository repository.ArticleRepository, DB *sql.D
 func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.ArticleCreateRequest) web.ArticleResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
-	helper.CommitOrRollback(tx)
+	defer helper.CommitOrRollback(tx)
 
 	article := domain.Article{
 		Title:   req.Title,
