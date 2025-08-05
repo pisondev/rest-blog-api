@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"rest-blog-api/app"
 	"rest-blog-api/controller"
+	"rest-blog-api/exception"
 	"rest-blog-api/helper"
 	"rest-blog-api/repository"
 	"rest-blog-api/service"
@@ -24,6 +25,8 @@ func main() {
 	router := httprouter.New()
 
 	router.POST("/api/articles", articleController.CreateArticle)
+
+	router.PanicHandler = exception.ErrorHandler
 
 	server := http.Server{
 		Addr:    "localhost:3000",
