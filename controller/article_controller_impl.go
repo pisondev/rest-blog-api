@@ -21,7 +21,7 @@ func NewArticleController(articleService service.ArticleService) ArticleControll
 
 func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	result := web.ArticleCreateRequest{}
-	helper.ReadFromRequestBody(r, result)
+	helper.ReadFromRequestBody(r, &result)
 
 	articleResponse := controller.ArticleService.CreateArticle(r.Context(), result)
 
