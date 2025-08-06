@@ -70,8 +70,8 @@ func (repository *ArticleRepositoryImpl) UpdateById(ctx context.Context, tx *sql
 	return article
 }
 
-func (repository *ArticleRepositoryImpl) DeleteById(ctx context.Context, tx *sql.Tx, article domain.Article) {
+func (repository *ArticleRepositoryImpl) DeleteById(ctx context.Context, tx *sql.Tx, articleId int) {
 	SQL := "DELETE FROM articles WHERE id = ?"
-	_, err := tx.ExecContext(ctx, SQL, article.Id)
+	_, err := tx.ExecContext(ctx, SQL, articleId)
 	helper.PanicIfError(err)
 }

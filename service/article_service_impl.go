@@ -106,5 +106,5 @@ func (service *ArticleServiceImpl) DeleteById(ctx context.Context, categoryId in
 		panic(exception.NewNotFoundError(err.Error()))
 	}
 
-	service.ArticleRepository.DeleteById(ctx, tx, article)
+	service.ArticleRepository.DeleteById(ctx, tx, article.Id)
 }
