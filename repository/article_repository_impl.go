@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"rest-blog-api/helper"
 	"rest-blog-api/model/domain"
 )
@@ -43,4 +44,20 @@ func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx
 	}
 
 	return articles
+}
+
+func (repository *ArticleRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, articleId int) (domain.Article, error) {
+	SQL := "SELECT id, title, content FROM articles WHERE id = ?"
+	rows, err := tx.QueryContext(ctx, SQL, articleId)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	article := domain.Article{}
+	if rows.Next() {
+		err := rows.Scan(&article.Id, &article.Title, &article.Content)
+		helper.PanicIfError(err)
+		return article, nil
+	} else {
+		return article, errors.New("article is not found")
+	}
 }
