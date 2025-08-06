@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"rest-blog-api/exception"
 	"rest-blog-api/helper"
 	"rest-blog-api/model/domain"
 	"rest-blog-api/model/web"
@@ -58,7 +59,9 @@ func (service *ArticleServiceImpl) FindById(ctx context.Context, categoryId int)
 	defer helper.CommitOrRollback(tx)
 
 	article, err := service.ArticleRepository.FindById(ctx, tx, categoryId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	return helper.ToArticleResponse(article)
 }
