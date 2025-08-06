@@ -28,7 +28,7 @@ func (repository *ArticleRepositoryImpl) CreateArticle(ctx context.Context, tx *
 	return article
 }
 
-func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx *sql.Tx) []domain.Article {
+func (repository *ArticleRepositoryImpl) FindArticles(ctx context.Context, tx *sql.Tx) []domain.Article {
 	SQL := "SELECT id, title, content, created_at, updated_at FROM articles"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)

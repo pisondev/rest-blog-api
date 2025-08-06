@@ -25,7 +25,7 @@ func main() {
 	router := httprouter.New()
 
 	router.POST("/api/articles", articleController.CreateArticle)
-	router.GET("/api/articles", articleController.FindAllArticles)
+	router.GET("/api/articles", articleController.FindArticles)
 	router.GET("/api/articles/:articleId", articleController.FindById)
 	router.PUT("/api/articles/:articleId", articleController.UpdateById)
 	router.DELETE("/api/articles/:articleId", articleController.DeleteById)

@@ -37,9 +37,9 @@ func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r 
 	helper.WriteToResponseBody(w, webResponse)
 }
 
-func (controller *ArticleControllerImpl) FindAllArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (controller *ArticleControllerImpl) FindArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 
-	articleResponses := controller.ArticleService.FindAllArticles(r.Context())
+	articleResponses := controller.ArticleService.FindArticles(r.Context())
 
 	webResponse := web.WebResponse{
 		Code:   200,
