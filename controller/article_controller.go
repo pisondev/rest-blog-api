@@ -8,4 +8,5 @@ import (
 
 type ArticleController interface {
 	CreateArticle(w http.ResponseWriter, r *http.Request, params httprouter.Params)
+	FindAllArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 }
