@@ -28,6 +28,7 @@ func main() {
 	router.GET("/api/articles", articleController.FindAllArticles)
 	router.GET("/api/articles/:articleId", articleController.FindById)
 	router.PUT("/api/articles/:articleId", articleController.UpdateById)
+	router.DELETE("/api/articles/:articleId", articleController.DeleteById)
 
 	router.PanicHandler = exception.ErrorHandler
 
