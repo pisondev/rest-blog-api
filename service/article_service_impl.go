@@ -86,3 +86,16 @@ func (service *ArticleServiceImpl) UpdateById(ctx context.Context, req web.Artic
 
 	return helper.ToArticleResponse(updatedArticle)
 }
+
+func (service *ArticleServiceImpl) DeleteById(ctx context.Context, categoryId int) {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	article, err := service.ArticleRepository.FindById(ctx, tx, categoryId)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
+
+	service.ArticleRepository.DeleteById(ctx, tx, article)
+}
