@@ -36,6 +36,14 @@ func (repository *ArticleRepositoryImpl) FindArticles(ctx context.Context, tx *s
 		SQL += " AND title LIKE ?"
 		args = append(args, "%"+articleFilter.Title+"%")
 	}
+	if !articleFilter.StartDate.IsZero() {
+		SQL += " AND created_at >= ?"
+		args = append(args, articleFilter.StartDate)
+	}
+	if !articleFilter.EndDate.IsZero() {
+		SQL += " AND created_at <= ?"
+		args = append(args, articleFilter.EndDate)
+	}
 
 	rows, err := tx.QueryContext(ctx, SQL, args...)
 	helper.PanicIfError(err)

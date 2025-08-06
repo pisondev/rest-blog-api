@@ -10,8 +10,8 @@ func ToArticleResponse(article domain.Article) web.ArticleResponse {
 		Id:        article.Id,
 		Title:     article.Title,
 		Content:   article.Content,
-		CreatedAt: article.CreatedAt,
-		UpdatedAt: article.UpdatedAt,
+		CreatedAt: article.CreatedAt.UTC(),
+		UpdatedAt: article.UpdatedAt.UTC(),
 	}
 }
 

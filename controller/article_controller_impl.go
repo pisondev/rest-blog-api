@@ -6,6 +6,7 @@ import (
 	"rest-blog-api/model/web"
 	"rest-blog-api/service"
 	"strconv"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -39,7 +40,20 @@ func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r 
 
 func (controller *ArticleControllerImpl) FindArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	articleFilterReq := web.ArticleFilterRequest{}
+
 	articleFilterReq.Title = r.URL.Query().Get("title")
+
+	if startDateStr := r.URL.Query().Get("start_date"); startDateStr != "" {
+		startDate, err := time.Parse(time.RFC3339, startDateStr)
+		helper.PanicIfError(err)
+		articleFilterReq.StartDate = startDate
+	}
+
+	if endDateStr := r.URL.Query().Get("end_date"); endDateStr != "" {
+		endDate, err := time.Parse(time.RFC3339, endDateStr)
+		helper.PanicIfError(err)
+		articleFilterReq.EndDate = endDate
+	}
 
 	articleResponses := controller.ArticleService.FindArticles(r.Context(), articleFilterReq)
 
