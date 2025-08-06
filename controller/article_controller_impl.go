@@ -5,6 +5,7 @@ import (
 	"rest-blog-api/helper"
 	"rest-blog-api/model/web"
 	"rest-blog-api/service"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -44,6 +45,21 @@ func (controller *ArticleControllerImpl) FindAllArticles(w http.ResponseWriter, 
 		Code:   200,
 		Status: "OK",
 		Data:   articleResponses,
+	}
+	helper.WriteToResponseBody(w, webResponse)
+}
+
+func (controller *ArticleControllerImpl) FindById(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	articleId := params.ByName("articleId")
+	id, err := strconv.Atoi(articleId)
+	helper.PanicIfError(err)
+
+	articleResponse := controller.ArticleService.FindById(r.Context(), id)
+
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   articleResponse,
 	}
 	helper.WriteToResponseBody(w, webResponse)
 }
