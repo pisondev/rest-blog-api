@@ -28,9 +28,16 @@ func (repository *ArticleRepositoryImpl) CreateArticle(ctx context.Context, tx *
 	return article
 }
 
-func (repository *ArticleRepositoryImpl) FindArticles(ctx context.Context, tx *sql.Tx) []domain.Article {
-	SQL := "SELECT id, title, content, created_at, updated_at FROM articles"
-	rows, err := tx.QueryContext(ctx, SQL)
+func (repository *ArticleRepositoryImpl) FindArticles(ctx context.Context, tx *sql.Tx, articleFilter domain.ArticleFilter) []domain.Article {
+	SQL := "SELECT id, title, content, created_at, updated_at FROM articles WHERE 1=1"
+	var args []interface{}
+
+	if articleFilter.Title != "" {
+		SQL += " AND title LIKE ?"
+		args = append(args, "%"+articleFilter.Title+"%")
+	}
+
+	rows, err := tx.QueryContext(ctx, SQL, args...)
 	helper.PanicIfError(err)
 	defer rows.Close()
 

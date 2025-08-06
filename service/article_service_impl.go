@@ -46,12 +46,18 @@ func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.Ar
 	return helper.ToArticleResponse(createdArticle)
 }
 
-func (service *ArticleServiceImpl) FindArticles(ctx context.Context) []web.ArticleResponse {
+func (service *ArticleServiceImpl) FindArticles(ctx context.Context, req web.ArticleFilterRequest) []web.ArticleResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
 
-	articles := service.ArticleRepository.FindArticles(ctx, tx)
+	articleFilter := domain.ArticleFilter{
+		Title:     req.Title,
+		StartDate: req.StartDate,
+		EndDate:   req.EndDate,
+	}
+
+	articles := service.ArticleRepository.FindArticles(ctx, tx, articleFilter)
 
 	return helper.ToArticleResponses(articles)
 }

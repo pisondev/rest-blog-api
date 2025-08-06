@@ -38,8 +38,10 @@ func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r 
 }
 
 func (controller *ArticleControllerImpl) FindArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	articleFilterReq := web.ArticleFilterRequest{}
+	articleFilterReq.Title = r.URL.Query().Get("title")
 
-	articleResponses := controller.ArticleService.FindArticles(r.Context())
+	articleResponses := controller.ArticleService.FindArticles(r.Context(), articleFilterReq)
 
 	webResponse := web.WebResponse{
 		Code:   200,
