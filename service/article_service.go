@@ -8,7 +8,7 @@ import (
 type ArticleService interface {
 	CreateArticle(ctx context.Context, req web.ArticleCreateRequest) web.ArticleResponse
 	FindAllArticles(ctx context.Context) []web.ArticleResponse
-	FindById(ctx context.Context, categoryId int) web.ArticleResponse
+	FindById(ctx context.Context, articleId int) web.ArticleResponse
 	UpdateById(ctx context.Context, req web.ArticleUpdateRequest) web.ArticleResponse
-	DeleteById(ctx context.Context, categoryId int)
+	DeleteById(ctx context.Context, articleId int)
 }
