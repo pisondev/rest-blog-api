@@ -26,3 +26,21 @@ func (repository *ArticleRepositoryImpl) CreateArticle(ctx context.Context, tx *
 
 	return article
 }
+
+func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx *sql.Tx) []domain.Article {
+	SQL := "SELECT id, title, content FROM articles"
+	rows, err := tx.QueryContext(ctx, SQL)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	var articles []domain.Article
+	for rows.Next() {
+		article := domain.Article{}
+		err := rows.Scan(&article.Id, &article.Title, &article.Content)
+		helper.PanicIfError(err)
+
+		articles = append(articles, article)
+	}
+
+	return articles
+}
