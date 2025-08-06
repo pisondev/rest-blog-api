@@ -36,8 +36,10 @@ func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.Ar
 	defer helper.CommitOrRollback(tx)
 
 	article := domain.Article{
-		Title:   req.Title,
-		Content: req.Content,
+		Title:     req.Title,
+		Content:   req.Content,
+		CreatedAt: time.Now().Truncate(time.Second),
+		UpdatedAt: time.Now().Truncate(time.Second),
 	}
 	createdArticle := service.ArticleRepository.CreateArticle(ctx, tx, article)
 
