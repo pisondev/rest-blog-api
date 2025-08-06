@@ -25,6 +25,7 @@ func main() {
 	router := httprouter.New()
 
 	router.POST("/api/articles", articleController.CreateArticle)
+	router.GET("/api/articles", articleController.FindAllArticles)
 
 	router.PanicHandler = exception.ErrorHandler
 
