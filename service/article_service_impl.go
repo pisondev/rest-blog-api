@@ -51,3 +51,14 @@ func (service *ArticleServiceImpl) FindAllArticles(ctx context.Context) []web.Ar
 
 	return helper.ToArticleResponses(articles)
 }
+
+func (service *ArticleServiceImpl) FindById(ctx context.Context, categoryId int) web.ArticleResponse {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	article, err := service.ArticleRepository.FindById(ctx, tx, categoryId)
+	helper.PanicIfError(err)
+
+	return helper.ToArticleResponse(article)
+}
