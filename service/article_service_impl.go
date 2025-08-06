@@ -8,6 +8,7 @@ import (
 	"rest-blog-api/model/domain"
 	"rest-blog-api/model/web"
 	"rest-blog-api/repository"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -81,8 +82,12 @@ func (service *ArticleServiceImpl) UpdateById(ctx context.Context, req web.Artic
 		panic(exception.NewNotFoundError(err.Error()))
 	}
 
-	article.Title = req.Title
-	article.Content = req.Content
+	if article.Title != req.Title || article.Content != req.Content {
+		article.Title = req.Title
+		article.Content = req.Content
+		article.UpdatedAt = time.Now().Truncate(time.Second)
+	} else {
+	}
 
 	updatedArticle := service.ArticleRepository.UpdateById(ctx, tx, article)
 
