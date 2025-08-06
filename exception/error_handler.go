@@ -12,6 +12,10 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, err interface{}) {
 	if validationError(w, r, err) {
 		return
 	}
+
+	if notFoundError(w, r, err) {
+		return
+	}
 	internalServerError(w, r, err)
 }
 
@@ -25,6 +29,25 @@ func validationError(w http.ResponseWriter, r *http.Request, err interface{}) bo
 			Code:   http.StatusBadRequest,
 			Status: "BAD REQUEST",
 			Data:   exception.Error(),
+		}
+
+		helper.WriteToResponseBody(w, webResponse)
+		return true
+	} else {
+		return false
+	}
+}
+
+func notFoundError(w http.ResponseWriter, r *http.Request, err interface{}) bool {
+	exception, ok := err.(NotFoundError)
+	if ok {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
+
+		webResponse := web.WebResponse{
+			Code:   http.StatusNotFound,
+			Status: "NOT FOUND",
+			Data:   exception.Err,
 		}
 
 		helper.WriteToResponseBody(w, webResponse)
