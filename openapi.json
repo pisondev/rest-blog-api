@@ -234,6 +234,40 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": ["Article API"],
+        "summary": "Delete by ID",
+        "description": "Delete an article by ID",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "description": "Article Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted an article",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
