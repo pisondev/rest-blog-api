@@ -47,14 +47,14 @@ func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx
 }
 
 func (repository *ArticleRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, articleId int) (domain.Article, error) {
-	SQL := "SELECT id, title, content FROM articles WHERE id = ?"
+	SQL := "SELECT id, title, content, created_at, updated_at FROM articles WHERE id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, articleId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	article := domain.Article{}
 	if rows.Next() {
-		err := rows.Scan(&article.Id, &article.Title, &article.Content)
+		err := rows.Scan(&article.Id, &article.Title, &article.Content, &article.CreatedAt, &article.UpdatedAt)
 		helper.PanicIfError(err)
 		return article, nil
 	} else {
