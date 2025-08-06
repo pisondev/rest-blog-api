@@ -41,3 +41,13 @@ func (service *ArticleServiceImpl) CreateArticle(ctx context.Context, req web.Ar
 
 	return helper.ToArticleResponse(createdArticle)
 }
+
+func (service *ArticleServiceImpl) FindAllArticles(ctx context.Context) []web.ArticleResponse {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	articles := service.ArticleRepository.FindAllArticles(ctx, tx)
+
+	return helper.ToArticleResponses(articles)
+}
