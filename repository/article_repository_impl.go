@@ -29,7 +29,7 @@ func (repository *ArticleRepositoryImpl) CreateArticle(ctx context.Context, tx *
 }
 
 func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx *sql.Tx) []domain.Article {
-	SQL := "SELECT id, title, content FROM articles"
+	SQL := "SELECT id, title, content, created_at, updated_at FROM articles"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -37,7 +37,7 @@ func (repository *ArticleRepositoryImpl) FindAllArticles(ctx context.Context, tx
 	var articles []domain.Article
 	for rows.Next() {
 		article := domain.Article{}
-		err := rows.Scan(&article.Id, &article.Title, &article.Content)
+		err := rows.Scan(&article.Id, &article.Title, &article.Content, &article.CreatedAt, &article.UpdatedAt)
 		helper.PanicIfError(err)
 
 		articles = append(articles, article)
