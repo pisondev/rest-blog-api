@@ -35,3 +35,15 @@ func (controller *ArticleControllerImpl) CreateArticle(w http.ResponseWriter, r 
 	}
 	helper.WriteToResponseBody(w, webResponse)
 }
+
+func (controller *ArticleControllerImpl) FindAllArticles(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+
+	articleResponses := controller.ArticleService.FindAllArticles(r.Context())
+
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   articleResponses,
+	}
+	helper.WriteToResponseBody(w, webResponse)
+}
