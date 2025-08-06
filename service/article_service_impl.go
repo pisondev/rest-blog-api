@@ -79,6 +79,9 @@ func (service *ArticleServiceImpl) UpdateById(ctx context.Context, req web.Artic
 	article, err := service.ArticleRepository.FindById(ctx, tx, articleId)
 	helper.PanicIfError(err)
 
+	article.Title = req.Title
+	article.Content = req.Content
+
 	updatedArticle := service.ArticleRepository.UpdateById(ctx, tx, article)
 
 	return helper.ToArticleResponse(updatedArticle)
