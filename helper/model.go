@@ -12,3 +12,11 @@ func ToArticleResponse(article domain.Article) web.ArticleResponse {
 		Content: article.Content,
 	}
 }
+
+func ToArticleResponses(articles []domain.Article) []web.ArticleResponse {
+	var articleResponses []web.ArticleResponse
+	for _, article := range articles {
+		articleResponses = append(articleResponses, ToArticleResponse(article))
+	}
+	return articleResponses
+}
