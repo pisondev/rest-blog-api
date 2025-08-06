@@ -26,6 +26,7 @@ func main() {
 
 	router.POST("/api/articles", articleController.CreateArticle)
 	router.GET("/api/articles", articleController.FindAllArticles)
+	router.GET("/api/articles/:articleId", articleController.FindById)
 
 	router.PanicHandler = exception.ErrorHandler
 
