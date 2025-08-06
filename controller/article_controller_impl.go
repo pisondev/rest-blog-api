@@ -83,3 +83,17 @@ func (controller *ArticleControllerImpl) UpdateById(w http.ResponseWriter, r *ht
 	}
 	helper.WriteToResponseBody(w, webResponse)
 }
+
+func (controller *ArticleControllerImpl) DeleteById(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	articleId := params.ByName("articleId")
+	id, err := strconv.Atoi(articleId)
+	helper.PanicIfError(err)
+
+	controller.ArticleService.DeleteById(r.Context(), id)
+
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+	}
+	helper.WriteToResponseBody(w, webResponse)
+}
