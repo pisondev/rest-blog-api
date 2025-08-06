@@ -63,3 +63,23 @@ func (controller *ArticleControllerImpl) FindById(w http.ResponseWriter, r *http
 	}
 	helper.WriteToResponseBody(w, webResponse)
 }
+
+func (controller *ArticleControllerImpl) UpdateById(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	articleUpdateReq := web.ArticleUpdateRequest{}
+	helper.ReadFromRequestBody(r, &articleUpdateReq)
+
+	articleId := params.ByName("articleId")
+	id, err := strconv.Atoi(articleId)
+	helper.PanicIfError(err)
+
+	articleUpdateReq.Id = id
+
+	articleResponse := controller.ArticleService.UpdateById(r.Context(), articleUpdateReq)
+
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   articleResponse,
+	}
+	helper.WriteToResponseBody(w, webResponse)
+}
