@@ -48,10 +48,12 @@
                   "type": "object",
                   "properties": {
                     "code": {
-                      "type": "number"
+                      "type": "number",
+                      "example": "201"
                     },
                     "status": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "Created"
                     },
                     "data": {
                       "type": "object",
