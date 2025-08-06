@@ -61,3 +61,11 @@ func (repository *ArticleRepositoryImpl) FindById(ctx context.Context, tx *sql.T
 		return article, errors.New("article is not found")
 	}
 }
+
+func (repository *ArticleRepositoryImpl) UpdateById(ctx context.Context, tx *sql.Tx, article domain.Article) domain.Article {
+	SQL := "UPDATE articles SET title = ?, content = ? WHERE id = ?"
+	_, err := tx.ExecContext(ctx, SQL, article.Title, article.Content, article.Id)
+	helper.PanicIfError(err)
+
+	return article
+}
