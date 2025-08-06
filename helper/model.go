@@ -7,9 +7,11 @@ import (
 
 func ToArticleResponse(article domain.Article) web.ArticleResponse {
 	return web.ArticleResponse{
-		Id:      article.Id,
-		Title:   article.Title,
-		Content: article.Content,
+		Id:        article.Id,
+		Title:     article.Title,
+		Content:   article.Content,
+		CreatedAt: article.CreatedAt,
+		UpdatedAt: article.UpdatedAt,
 	}
 }
 
