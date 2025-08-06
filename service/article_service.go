@@ -10,4 +10,5 @@ type ArticleService interface {
 	FindAllArticles(ctx context.Context) []web.ArticleResponse
 	FindById(ctx context.Context, categoryId int) web.ArticleResponse
 	UpdateById(ctx context.Context, req web.ArticleUpdateRequest) web.ArticleResponse
+	DeleteById(ctx context.Context, categoryId int)
 }
