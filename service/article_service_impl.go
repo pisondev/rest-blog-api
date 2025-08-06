@@ -65,3 +65,21 @@ func (service *ArticleServiceImpl) FindById(ctx context.Context, categoryId int)
 
 	return helper.ToArticleResponse(article)
 }
+
+func (service *ArticleServiceImpl) UpdateById(ctx context.Context, req web.ArticleUpdateRequest) web.ArticleResponse {
+	err := service.Validate.Struct(req)
+	helper.PanicIfError(err)
+
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	articleId := req.Id
+
+	article, err := service.ArticleRepository.FindById(ctx, tx, articleId)
+	helper.PanicIfError(err)
+
+	updatedArticle := service.ArticleRepository.UpdateById(ctx, tx, article)
+
+	return helper.ToArticleResponse(updatedArticle)
+}
