@@ -11,4 +11,5 @@ type ArticleRepository interface {
 	FindAllArticles(ctx context.Context, tx *sql.Tx) []domain.Article
 	FindById(ctx context.Context, tx *sql.Tx, articleId int) (domain.Article, error)
 	UpdateById(ctx context.Context, tx *sql.Tx, article domain.Article) domain.Article
+	DeleteById(ctx context.Context, tx *sql.Tx, article domain.Article)
 }
