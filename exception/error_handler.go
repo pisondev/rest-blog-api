@@ -13,6 +13,10 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, err interface{}) {
 		return
 	}
 
+	if badRequestError(w, r, err) {
+		return
+	}
+
 	if notFoundError(w, r, err) {
 		return
 	}
@@ -29,6 +33,25 @@ func validationError(w http.ResponseWriter, r *http.Request, err interface{}) bo
 			Code:   http.StatusBadRequest,
 			Status: "BAD REQUEST",
 			Data:   exception.Error(),
+		}
+
+		helper.WriteToResponseBody(w, webResponse)
+		return true
+	} else {
+		return false
+	}
+}
+
+func badRequestError(w http.ResponseWriter, r *http.Request, err interface{}) bool {
+	exception, ok := err.(BadRequestError)
+	if ok {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+
+		webResponse := web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   exception.Err,
 		}
 
 		helper.WriteToResponseBody(w, webResponse)
