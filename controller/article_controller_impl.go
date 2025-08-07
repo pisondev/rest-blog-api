@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"rest-blog-api/exception"
 	"rest-blog-api/helper"
 	"rest-blog-api/model/web"
 	"rest-blog-api/service"
@@ -45,13 +46,17 @@ func (controller *ArticleControllerImpl) FindArticles(w http.ResponseWriter, r *
 
 	if startDateStr := r.URL.Query().Get("start_date"); startDateStr != "" {
 		startDate, err := time.Parse(time.RFC3339, startDateStr)
-		helper.PanicIfError(err)
+		if err != nil {
+			panic(exception.NewBadRequestError(err.Error()))
+		}
 		articleFilterReq.StartDate = startDate
 	}
 
 	if endDateStr := r.URL.Query().Get("end_date"); endDateStr != "" {
 		endDate, err := time.Parse(time.RFC3339, endDateStr)
-		helper.PanicIfError(err)
+		if err != nil {
+			panic(exception.NewBadRequestError(err.Error()))
+		}
 		articleFilterReq.EndDate = endDate
 	}
 

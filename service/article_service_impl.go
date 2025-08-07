@@ -57,6 +57,12 @@ func (service *ArticleServiceImpl) FindArticles(ctx context.Context, req web.Art
 		EndDate:   req.EndDate,
 	}
 
+	if !articleFilter.StartDate.IsZero() && !articleFilter.EndDate.IsZero() {
+		if articleFilter.StartDate.After(articleFilter.EndDate) {
+			panic(exception.NewBadRequestError("start_date cannot be after end_date"))
+		}
+	}
+
 	articles := service.ArticleRepository.FindArticles(ctx, tx, articleFilter)
 
 	return helper.ToArticleResponses(articles)
